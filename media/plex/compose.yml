@@ -1,0 +1,53 @@
+# Currently untested as written
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    env_file:
+      - .env
+    environment:
+      - PUID=${PUID:-1000} # Change to your user ID
+      - PGID=${PGID:-1000} # Change to your group ID
+      - TZ=${TZ:-Europe/Madrid} # Change to your timezone
+      - VERSION=${VERSION:-docker}
+      - PLEX_CLAIM=${PLEX_CLAIM} #optional
+    ports:
+      - 32400:32400
+    devices:
+      - /dev/dri:/dev/dri # QuickSync
+    volumes:
+      - ./plex:/config
+      - /data:/data
+    restart: unless-stopped
+
+  #  overseerr:
+  #    image: lscr.io/linuxserver/overseerr:latest
+  #    container_name: overseerr
+  #    environment:
+  #      - PUID=${PUID}
+  #      - PGID=${PGID}
+  #      - TZ=${TZ}
+  #    volumes:
+  #      - ./overseer/config:/config
+  #      - /data:/data
+  #    ports:
+  #      - 5056:5055
+  #    restart: unless-stopped
+  #    env_file:
+  #      - .env
+
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    container_name: tautulli
+    env_file:
+      - .env
+    environment:
+      - PUID=${PUID:-1000} # Change to your user ID
+      - PGID=${PGID:-1000} # Change to your group ID
+      - TZ=${TZ:-Europe/Madrid} # Change to your timezone
+    volumes:
+      - ./tautulli:/config
+    ports:
+      - 8181:8181
+    restart: unless-stopped

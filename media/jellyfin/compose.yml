@@ -1,0 +1,21 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    env_file:
+      - .env
+    environment:
+      - PUID=${PUID:-1000} #Change to your user ID
+      - PGID=${PGID:-1000} #Change to your group ID
+      - TZ=${TZ:-Europe/Madrid} #Change to your timezone
+      - JELLYFIN_PublishedServerUrl=${JELLYFIN_PublishedServerUrl} #Change to your domain or IP
+    volumes:
+      - ./config:/config
+      - /data:/data
+    devices:
+      - /dev/dri:/dev/dri #Use for Intel QuickSync
+    ports:
+      - 8096:8096
+      - 7359:7359/udp #Service Discovery
+      - 1900:1900/udp #Client Discovery
+    restart: unless-stopped
