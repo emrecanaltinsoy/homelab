@@ -227,11 +227,11 @@ services:
   #    restart: unless-stopped
   #
 
-  # Jellyseerr #
-  # Jellyseerr is a self-hosted media request management tool for Plex, Jellyfin, and Emby.
-  jellyseerr:
-    container_name: jellyseerr
-    image: fallenbagel/jellyseerr:latest
+  # Seerr is a self-hosted media request management tool for Plex, Jellyfin, and Emby.
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    container_name: seerr
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
